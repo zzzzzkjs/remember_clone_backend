@@ -17,11 +17,11 @@ def reorderPts(pts):
 
     return pts
 
-# cv_image = cv2.imread("remember_clone_backend/resource/my_small.jpg")
-# cv_image = cv2.imread("remember_clone_backend/resource/my.jpg")
-# cv_image = cv2.imread("remember_clone_backend/resource/my2.jpg")
-# cv_image = cv2.imread("remember_clone_backend/resource/test3.jpg")
-cv_image = cv2.imread("remember_clone_backend/resource/test4.jpg")
+# cv_image = cv2.imread("remember_clone_backend/imageprocessing/resource/my_small.jpg")
+# cv_image = cv2.imread("remember_clone_backend/imageprocessing/resource/my.jpg")
+cv_image = cv2.imread("remember_clone_backend/imageprocessing/resource/my2.jpg")
+# cv_image = cv2.imread("remember_clone_backend/imageprocessing/resource/test3.jpg")
+# cv_image = cv2.imread("remember_clone_backend/imageprocessing/resource/test4.jpg")
 if cv_image is None:
     print('image load is failed')
     sys.exit()
@@ -62,14 +62,14 @@ for cnt in contours:
 
 cv2.drawContours(cv_image,[outLine],0,(0,0,255),2)
 
-w, h = 900, 500
+w, h = 500, 900
 
 # 시계방향 정렬
 srcQuad = reorderPts(outLine.reshape(4,2).astype(np.float32))
-dstQuad = np.array([[0, 0], [0, h], [w, h], [w, 0]], np.float32)
+# dstQuad = np.array([[0, 0], [0, h], [w, h], [w, 0]], np.float32)
 
 # srcQuad = np.array([[hull[0, 0, :]], [hull[1, 0, :]], [hull[2, 0, :]], [hull[3, 0, :]]]).astype(np.float32)
-# dstQuad = np.array([[w,0], [0,0], [0,h], [w,h] ]).astype(np.float32)
+dstQuad = np.array([[w,0], [0,0], [0,h], [w,h] ]).astype(np.float32)
 
 pers = cv2.getPerspectiveTransform(srcQuad, dstQuad)
 cv_image_pre = cv2.warpPerspective(cv_image, pers, (w, h))
@@ -100,7 +100,7 @@ cv_image_pre = cv2.cvtColor(cv_image_pre, cv2.COLOR_BGR2RGB)
 
 text = pytesseract.image_to_string(cv_image_pre, lang='Hangul+eng')
 print(text)
-# with open("remember_clone_backend/resource/sample.txt", "w") as f:
+# with open("remember_clone_backend/imageprocessing/sample.txt", "w") as f:
 #     f.write(text)
 
 cv2.imshow("test2", cv_image)
